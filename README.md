@@ -6,4 +6,4 @@ Run ``python -c 'import YOLO_process; YOLO_process.predict(YOLO_process.sess,"IM
 
 ![test](https://user-images.githubusercontent.com/29159878/48079319-1dcd6700-e1b9-11e8-9f84-b3e983919f32.jpg)
 
-The content of this repo is drawn significantly from the course Convolutional Neural Network by Andrew Ng
+The content of this repo is drawn significantly from an assignment of the course Convolutional Neural Network by Andrew Ng
