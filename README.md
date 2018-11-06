@@ -1,6 +1,6 @@
 Detecting in real-time 80 objects using pretrained YOLO algorithm
 
-Run ``python -c 'import YOLO_process; YOLO_process.predict(YOLO_process.sess,"IMG_PATH")'`` to test
+Run ``python -c 'import YOLO_process; YOLO_process.predict(YOLO_process.sess,"/images/IMG_NAME")'`` to test
 
 # Example
 
