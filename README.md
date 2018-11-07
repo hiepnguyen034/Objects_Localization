@@ -6,12 +6,13 @@ Run ``python -c 'import YOLO_process; YOLO_process.predict(YOLO_process.sess,"/i
 
 # Example 1
 
-![myself](https://user-images.githubusercontent.com/29159878/48108915-4b46fe80-e213-11e8-99c6-7c9c3c5378ee.jpg)
+![me](https://user-images.githubusercontent.com/29159878/48109243-a2999e80-e214-11e8-96bc-67663aaac66f.jpg)
+
 
 
 # Example 2
 
-![test](https://user-images.githubusercontent.com/29159878/48079319-1dcd6700-e1b9-11e8-9f84-b3e983919f32.jpg)
+![myself](https://user-images.githubusercontent.com/29159878/48108915-4b46fe80-e213-11e8-99c6-7c9c3c5378ee.jpg)
 
 
 # Example 3
