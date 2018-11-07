@@ -13,14 +13,18 @@ from keras.layers import Input, Lambda, Conv2D
 from keras.models import load_model, Model
 from yolo_utils import read_classes, read_anchors, generate_colors, preprocess_image, draw_boxes, scale_boxes
 from yad2k.models.keras_yolo import yolo_head, yolo_boxes_to_corners, preprocess_true_boxes, yolo_loss, yolo_body
+from resizeimage import resizeimage
 
 
 def yolo_filter_boxes(box_confidence, boxes, box_class_probs, threshold = .6):
     
     box_scores = box_confidence * box_class_probs
+    #Find the box_classes thanks to the max box_scores, keep track of the corresponding score
    
     box_classes = tf.argmax(box_scores,axis=-1)
     box_class_scores = tf.reduce_max(box_scores,axis=-1)   
+    # Create a filtering mask based on "box_class_scores" by using "threshold". The mask should have the
+    # same dimension as box_class_scores, and be True for the boxes you want to keep (with probability >= threshold)
     filtering_mask = tf.greater_equal(box_class_scores, threshold)
     
     # Apply the mask to scores, boxes and classes
@@ -37,7 +41,7 @@ def yolo_non_max_suppression(scores, boxes, classes, max_boxes = 10, iou_thresho
     max_boxes_tensor = tf.Variable(max_boxes, dtype='int32')     # tensor to be used in tf.image.non_max_suppression()
     K.get_session().run(tf.variables_initializer([max_boxes_tensor])) # initialize variable max_boxes_tensor
     
-    #get the list of indices corresponding to boxes 
+    # Use tf.image.non_max_suppression() to get the list of indices corresponding to boxes you keep
     nms_indices = tf.image.non_max_suppression(boxes,scores,max_boxes,iou_threshold=iou_threshold)
     scores = tf.gather(scores,nms_indices)
     boxes = tf.gather(boxes,nms_indices)
@@ -68,7 +72,8 @@ def predict(sess, image_file):
     yolo_outputs = yolo_head(yolo_model.output, anchors, len(class_names))
     scores, boxes, classes = yolo_eval(yolo_outputs, image_shape)
     image, image_data = preprocess_image("images/" + image_file, model_image_size = (608, 608))
-
+    if np.array(image,'uint8').shape[0]!=720 and np.array(image,'uint8').shape[1]!=1280:
+    	image = resizeimage.resize_contain(image, [1280, 720,3])
     # Run the session with the correct tensors and choose the correct placeholders in the feed_dict.
     out_scores, out_boxes, out_classes = sess.run([scores,boxes,classes],feed_dict={
     	yolo_model.input: image_data, K.learning_phase(): 0
@@ -79,11 +84,14 @@ def predict(sess, image_file):
     draw_boxes(image, out_scores, out_boxes, out_classes, class_names, colors)
     image.save(os.path.join("out", image_file), quality=90)
     output_image = scipy.misc.imread(os.path.join("out", image_file))
+    print(np.array(output_image).shape)
+
     imshow(output_image)
     plt.show()
     return out_scores, out_boxes, out_classes
 
 sess = K.get_session()
 
-if __name__ == '__main__':
-	predict(sess,"test.jpg")
+
+# if __name__ == '__main__':
+# 	predict(sess,"test.jpg")
