@@ -1,6 +1,7 @@
 Detecting in real-time 80 objects using pretrained YOLO algorithm
 
 Run ``pip -r requirements.txt`` to install dependencies
+
 Run ``python -c 'import YOLO_process; YOLO_process.predict(YOLO_process.sess,"/images/IMG_NAME")'`` to test
 
 # Example 1
