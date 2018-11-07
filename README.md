@@ -13,5 +13,3 @@ Run ``python -c 'import YOLO_process; YOLO_process.predict(YOLO_process.sess,"/i
 
 
 The content of this repo is drawn significantly from the course Convolutional Neural Network by Andrew Ng
-=======
-The content of this repo is drawn significantly from an assignment of the course Convolutional Neural Network by Andrew Ng
