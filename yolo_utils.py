@@ -3,6 +3,7 @@ import imghdr
 import os
 import random
 from keras import backend as K
+from resizeimage import resizeimage
 
 import numpy as np
 from PIL import Image, ImageDraw, ImageFont
@@ -41,6 +42,8 @@ def scale_boxes(boxes, image_shape):
 def preprocess_image(img_path, model_image_size):
     image_type = imghdr.what(img_path)
     image = Image.open(img_path)
+    if np.array(image,'uint8').shape[0]!=720 and np.array(image,'uint8').shape[1]!=1280:
+        image = resizeimage.resize_contain(image, [1280, 720,3])
     resized_image = image.resize(tuple(reversed(model_image_size)), Image.BICUBIC)
     image_data = np.array(resized_image, dtype='float32')
     image_data /= 255.
